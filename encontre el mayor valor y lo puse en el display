@@ -1,0 +1,57 @@
+;encontrar el valor mas grande
+;de 11 número
+	org 0h
+	mov R5,#0
+	mov R6,#11
+	mov R2,#0
+lazo:
+	mov A,R2
+	lcall obtiene_numero
+	mov 30h,A
+	subb A,R5      ;a=a-	r5
+	jnc cambia;Carry es 0 si es positivo jnc (if)
+continua:	
+   inc R2; porque incrementa ?
+	djnz R6,lazo
+	sjmp salir
+
+cambia:
+		mov R5,30h
+		sjmp continua
+salir:
+	mov 40h,R5
+	;mostrar en el display
+	mov A,40h
+	clr P3.3
+	clr P3.4
+	lcall display	
+	mov P1,A
+
+	sjmp $
+obtiene_numero:
+	inc A
+	movc A,@A+PC
+	ret
+	db 9,2,6,5,4,7,6,7,0,1,4
+display:
+inc a ;incremento el valor de A 
+movc a,@a+pc ;muevo a A el valor del contenido de la dirección de memoria (pc+a) ret ;Retorno de la subrutina al programa principal 
+ret
+db 0C0h ;Con este código se muestra "0" en el display 
+db 0F9h ;Con este código se muestra "1" en el display 
+db 0A4h ;"2" 
+db 0B0h ;"3" 
+db 99h ;"4" 
+db 92h ;"5" 
+db 82h ;"6" 
+db 0F8h ;"7" 
+db 80h ;"8"
+
+db 90h ;"9" 
+db 88h ; a 
+db 83h ; b 
+db 0c6h ; c 
+db 0a1h ; d 
+db 86h ; e 
+db 8eh ; f 
+end
