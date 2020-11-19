@@ -1,0 +1,15 @@
+org 0h
+wait:
+	jnb P2.0,repite ;esta prendido ? P2	
+	sjmp wait
+repite:
+	clr P1.0
+	nop 
+   nop
+	setb P1.0
+   nop
+	nop 
+	 nop
+   jnb P2.1,wait
+	 sjmp repite 
+	end
