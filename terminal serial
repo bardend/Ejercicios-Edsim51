@@ -1,0 +1,31 @@
+;envio al terminal serial
+	org 0h
+	lcall init
+	mov A,#45h
+	mov B,#10
+	div AB
+	mov 40h,A
+	mov 41h,B
+	add A,#30h ;convertir a assci
+	lcall sndchr;enviar al terminal
+	mov A,41h
+	add A,#30h
+	lcall sndchr
+	sjmp $
+
+;fijas 192000 baudios 
+init:
+
+	mov PCON,#80H
+	mov TMOD,#20H
+	mov TCON,#41H
+	mov TH1,#0FDH
+	mov SCON,#50H
+	ret
+sndchr:
+	clr TI
+	mov SBUF,A
+txloop:
+	jnb TI,txloop
+	ret
+	end 
