@@ -1,0 +1,87 @@
+ORG 0
+MOV 33H, #46H ;EN DATA MEMORY SE AGREGA EL VALOR DE 46 EN HEXADECIMAL
+MOV 2BH, #76H ;EN DATA MEMORY SE AGREGA EL VALOR DE 76 EN HEXA
+MOV R4, #14H  ;EN EL REGISTRO SE AGREGA
+MOV A, #28H  ;A(ACC(ACUMULADOR))
+MOV 2BH,33H  ;//SIMILIAR 2BH=33H
+XCH A,R4    ;COMANDO SIMILAR SWAP PERO SOLO FUNCIONA CON EL ACUMULADOR DELANTE 
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+	ORG 0
+
+;ENCIENDA EL LED Y SE TRASLADE DE DERECHA A IZQUIERDA
+;LOS LED ESTAN EN EL PUERTO 1
+MOV A, #11111110B
+CALL LEDS ;LLAMAMOS A LA FUNCION
+;CREAMOS UN SUBPROGRAMA
+LEDS:
+ 	MOV P1,A ;AQUI EL P1=A Y SE ENCIENDE EL BIT MENOS SIGNIFICATIVO
+	RL A ;AQUI SE MUEVE UNA POSICIÓN 
+	CALL LEDS ;BUCLE 
+  
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;CASO DE SUMA;;;;;;;;;;;;;;;;;;
+;GUARDADO EN REGISTRO
+org 0h
+mov R6,#23h
+mov R7,#46h
+mov A,R6
+add A,R7
+mov 30h,A
+sjmp $ ;salto a si mismo similar to return 0
+end  
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;,
+
+;GUARDADO EN POSICIÓN DE MEMORIA
+org 0h
+mov 40h,#13h ;cuando es sin direccion no es michi
+mov 41h,#25h
+mov A,40h
+add A,41h
+mov 42h,A
+sjmp $ ;salto a si mismo similar to return 0
+end
+
+;;;;;;;;;;;;;;;;;;;;;;;CASO DE RESTA;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+org 0h
+mov R1,#93h
+mov R2,#52h
+mov A,R1
+subb A,R2
+mov 30h,A
+sjmp $
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;almacenamoms en 40h sumamos 5y mostramos 41h
+
+org 0h
+mov 40h,#55h
+mov A,40h
+add A,#5h
+mov 41h,A
+sjmp $
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;caso multiplicación
+org 0h
+mov R6,#20
+mov R7,#10
+mov A,R6
+mov B,R7
+mul AB   ;A=AB   
+mov 30h,A
+sjmp $
+end     
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;cuando la mutiplicación supera los 8 bits
+org 0h
+mov 40h,#15
+mov 41h,#20
+mov A,40h
+mov B,41h
+mul AB
+mov 42h ,B ;aqui sale el mas significativo
+mov 43h,A
+sjmp $
