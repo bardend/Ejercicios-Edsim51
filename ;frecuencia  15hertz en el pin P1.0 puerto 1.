@@ -1,0 +1,11 @@
+#include<bits/stdc++.h>
+#define d double 
+using namespace std;
+int main(){
+	d x;
+	cin>>x;
+	d aux=(1/x)/2;
+	d res=1000000*aux/1.08506944;
+	cout<<" Recuerda que esta en decimal y tu lo tienes que convertir a h\n";
+	cout<<65536-res<<" ";
+}
